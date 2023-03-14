@@ -6,6 +6,9 @@ metadata:
     app: crop-backend
     type: backend
 spec:
+  selector:
+      matchLabels:
+        app: crop-backend
   template:
     metadata:
       name: crop-backend
@@ -20,6 +23,15 @@ spec:
             requests:
               memory: "1Gi"
               cpu: 1
+          readinessProbe:
+            httpGet:
+              path: /api/v1/crop
+              port: 8080
+            initialDelaySeconds: 20
+          livenessProbe:
+            httpGet:
+              path: /api/v1/crop
+              port: 8080
         - name: postgres
           image: postgres:10.1
           imagePullPolicy: "IfNotPresent"
@@ -36,7 +48,5 @@ spec:
           persistentVolumeClaim:
             claimName: postgres-pv-claim
   replicas: 1
-  selector:
-    matchLabels:
-      type: backend
+  
 

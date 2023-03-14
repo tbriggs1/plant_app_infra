@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crop-ui-deployment
+  labels:
+    app: crop-ui
+    type: frontend
+spec:
+  selector:
+    matchLabels:
+      app: crop-ui
+  template:
+    metadata:
+      name: crop-ui
+      labels:
+        app: crop-ui
+    spec:
+      containers:
+        - name: crop-ui
+          image: tombriggs/crop-ui
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: 1
+          ports:
+            - containerPort: 3000
+
